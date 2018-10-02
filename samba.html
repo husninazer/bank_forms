@@ -96,7 +96,7 @@
                     <td>Amount:</td>
                     <td><input class="my-style" v-model="amount"  v-on:keyup="getWords" />  </td>
                     <td>Amount in Words:</td>
-                    <td><textarea class="my-style" style="text-transform: uppercase;" v-model="amountWords"> </textarea>  </td>
+                    <td><textarea class="my-style" style="text-transform: uppercase; font-size:11px;" v-model="amountWords"> </textarea>  </td>
                   </tr>
 
                   <tr align="left">
@@ -212,7 +212,7 @@
           	        },
           	        {
           	           width: '50%',
-                       text: this.amountWords.toUpperCase(), margin: [100, 0, 0, 0]
+                       text: this.toTitleCase(this.amountWords), margin: [100, 0, 0, 0]
           	        }
           	    ]
           	  }
@@ -241,6 +241,15 @@
         int = Math.trunc(int)
         this.amountWords = this.intToWords(int) + " AND 00/100 ONLY"
       },
+
+      toTitleCase(str) {
+            return str.replace(
+                /\w\S*/g,
+                function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        },
 
       intToWords(int) {
           if (int === 0) return 'zero';
