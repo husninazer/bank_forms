@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ATTAR Bank Forms - SAMBA</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+      body {
+        padding-top: 54px;
+      }
+      @media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+
+      .my-style {
+        width: 300px;
+      }
+
+      table tr td {
+        padding-left: 50px; 
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Bank Forms</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">NCB
+                
+              </a>
+              
+            </li>
+            <li class="nav-item "></li>
+            <a class="nav-link" href="samba.html">SAMBA
+               
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">SAMBA Bank Form</h1>
+         
+          <div id="app">
+                  <table>
+                  <tr align="left">
+                    <td>Company:</td>
+                    <td><input class="my-style" v-model="company" />  </td>
+                    <td>Branch:</td>
+                    <td><input class="my-style" v-model="branch" />  </td>
+                  </tr align="left">
+                  <tr align="left">
+                    <td>IATA No.:</td>
+                    <td><input class="my-style"  v-model="iataNumber" />  </td>
+                    <td>Period:</td>
+                    <td><input class="my-style" v-model="period" />  </td>
+                  </tr>
+
+                  <tr align="left">
+                      <td>Account Number:</td>
+                      <td><input class="my-style" v-model="accountNumber" />   </td>
+                      <td>Depositor's Name</td>
+                      <td><textarea class="my-style" v-model="depositor"> </textarea>  </td>
+                    </tr>
+                  
+                  <tr align="left">
+                    <td>Amount:</td>
+                    <td><input class="my-style" v-model="amount"  v-on:keyup="getWords" />  </td>
+                    <td>Amount in Words:</td>
+                    <td><textarea class="my-style" style="text-transform: uppercase;" v-model="amountWords"> </textarea>  </td>
+                  </tr>
+
+                  <tr align="left">
+                     <td>IBAN:</td>
+                    <td><input class="my-style" v-model="iban"  />  </td>
+                    <td></td>
+                    <td><button v-on:click="downloadPdf()">Print PDF</button>  </td>
+                  </tr>
+
+                </table>
+              </div>
+              <img width = "20%" style=" transform: rotate(-90deg);" src="img/samba.jpg">
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="vendor/husni/pdfmake.min.js"></script>
+    <script src="vendor/husni/vfs_fonts.js"></script>
+
+    <script>
+      new Vue({
+  el: '#app',
+   data: function() {
+        return {
+            docDate: '',
+            iataNumber: '7120452',
+            company: 'ATTAR TRAVEL COMPANY',
+            branch: 'AL ANDALUS',
+            period: '01-07/09/2018',
+            iban: 'IBAN123456789',
+
+            depositor: '',
+            
+            accountNumber: '04110919',
+
+            amount: '14,000,000.00',
+            amountWords: 'THREE HUNDRED THOUSAND AND 00/100 ONLY',
+          
+            currency: 'SAR'
+            
+        }
+    },
+    mounted: function() {
+    
+    },
+    
+    methods:  {
+      
+      downloadPdf : function () {
+        var dd = {
+          	content: [
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: this.docDate, margin: [110, 0, 0, 0], fontSize: 10.5
+          	        },
+          	        {
+          	           width: '50%',
+                       text: this.branch , margin: [105, 0, 10, 0]
+          	        }
+          	    ]
+          	  },
+          	  '\n',
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: this.iataNumber + '\n' + this.company + '\n'+ this.period , margin: [80, 50, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: 'BSP-IBAN' + '\n' + this.iban , margin: [0, 60, 0, 0], alignment: 'left'
+          	        }
+          	    ]
+          	  },
+          	  '\n',
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: this.accountNumber, margin: [120, 25, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: '', margin: [40, 17, 10, 0]
+          	        }
+          	    ]
+          	  },
+          	  '\n',
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text:'', margin: [15, 30, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: this.amount, margin: [165, 30, 10, 0]
+          	        }
+          	    ]
+          	  },
+          	  '\n',
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text:'', margin: [15, 0, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: this.amountWords, margin: [100, 0, 0, 0]
+          	        }
+          	    ]
+          	  }
+          	  
+
+          	  
+          	],
+          	styles: {
+          		leftMargin: {
+          			margin: [30, 30, 10, 0],
+          			fontSize: 10
+          		}
+            },
+            pageSize: {
+                width: 655,
+                height: 842
+            }
+          }
+          
+          pdfMake.createPdf(dd).open();
+            
+      },
+
+      getWords() {
+        var int = this.amount.replace(/,/g, '')
+        int = Math.trunc(int)
+        this.amountWords = this.intToWords(int) + " AND 00/100 ONLY"
+      },
+
+      intToWords(int) {
+          if (int === 0) return 'zero';
+
+          var ONES  = ['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+          var TENS  = ['','','twenty','thirty','fourty','fifty','sixty','seventy','eighty','ninety'];
+          var SCALE = ['','thousand','million','billion','trillion','quadrillion','quintillion','sextillion','septillion','octillion','nonillion'];
+
+          // Return string of first three digits, padded with zeros if needed
+          function get_first(str) {
+            return ('000' + str).substr(-3);
+          }
+
+          // Return string of digits with first three digits chopped off
+          function get_rest(str) {
+            return str.substr(0, str.length - 3);
+          }
+
+          // Return string of triplet convereted to words
+          function triplet_to_words(_3rd, _2nd, _1st) {
+            return (_3rd == '0' ? '' : ONES[_3rd] + ' hundred ') + (_1st == '0' ? TENS[_2nd] : TENS[_2nd] && TENS[_2nd] + ' ' || '') + (ONES[_2nd + _1st] || ONES[_1st]);
+          }
+
+          // Add to words, triplet words with scale word
+          function add_to_words(words, triplet_words, scale_word) {
+            return triplet_words ? triplet_words + (scale_word && ' ' + scale_word || '') + ' ' + words : words;
+          }
+
+          function iter(words, i, first, rest) {
+            if (first == '000' && rest.length === 0) return words;
+            return iter(add_to_words(words, triplet_to_words(first[0], first[1], first[2]), SCALE[i]), ++i, get_first(rest), get_rest(rest));
+          }
+
+          return iter('', 0, get_first(String(int)), get_rest(String(int)));
+        } 
+      
+      
+      
+    }
+      })
+    </script>
+   
+
+  </body>
+
+</html>

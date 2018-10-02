@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ATTAR Bank Forms</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+      body {
+        padding-top: 54px;
+      }
+      @media (min-width: 992px) {
+        body {
+          padding-top: 56px;
+        }
+      }
+
+      .my-style {
+        width: 300px;
+      }
+
+      table tr td {
+        padding-left: 50px; 
+      }
+
+    </style>
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Bank Forms</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">NCB
+                <span class="sr-only">(current)</span>
+              </a>
+              
+            </li>
+            <li class="nav-item "></li>
+            <a class="nav-link" href="samba.html">SAMBA
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">NCB Bank Form</h1>
+         
+          <div id="app">
+                  <table>
+                  <tr align="left">
+                    <td>Holder Name:</td>
+                    <td><input class="my-style" v-model="holderName" />  </td>
+                    <td>Holder Account number:</td>
+                    <td><input class="my-style" v-model="holderAc" />  </td>
+                  </tr align="left">
+                  <tr>
+                    <td>Beneficiary Name:</td>
+                    <td><input class="my-style"  v-model="beneficiaryName" />  </td>
+                    <td>Beneficiary Account number:</td>
+                    <td><input class="my-style" v-model="beneficiaryAc" />  </td>
+                  </tr>
+                  
+                  <tr align="left">
+                    <td>Amount:</td>
+                    <td><input class="my-style" v-model="amount"  />  </td>
+                    <td>Amount in Words:</td>
+                    <td><textarea class="my-style" v-model="amountWords"> </textarea>  </td>
+                  </tr>
+                  <tr align="left">
+                    <td>Address:</td>
+                    <td><textarea class="my-style" v-model="address"> </textarea>  </td>
+                    <td>Bank address</td>
+                    <td><textarea class="my-style" v-model="bankAddress"> </textarea>  </td>
+                  </tr>
+                  <tr align="left">
+                     <td>Currency:</td>
+                    <td><input class="my-style" v-model="currency"  />  </td>
+                    <td></td>
+                    <td><button v-on:click="downloadPdf()">Print PDF</button>  </td>
+                  </tr>
+
+                </table>
+              </div>
+              <img width = "20%" style=" transform: rotate(-90deg);" src="img/ncb.jpg">
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="vendor/husni/pdfmake.min.js"></script>
+    <script src="vendor/husni/vfs_fonts.js"></script>
+
+    <script>
+      new Vue({
+  el: '#app',
+   data: function() {
+        return {
+            holderName: 'GHASSAN OMAR ATTAR',
+            holderAc: '10167029000109',
+            beneficiaryName: 'ATTAR HOLDING CO',
+            beneficiaryAc: 'SA28 1000 0010 1769 1100 0103',
+            
+            amount: '14,000,000.00',
+            amountWords: 'THREE HUNDRED THOUSAND AND 00/100 ONLY',
+            
+            address: '\nSaudi Arabia\n\nJeddah \n\n6611222',
+            bankAddress: 'NCB\nJEDDAH',
+          
+          currency: 'SAR'
+            
+        }
+    },
+    mounted: function() {
+    
+    },
+    
+    methods:  {
+      
+      downloadPdf : function () {
+        var dd = {
+          	content: [
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: this.holderName, margin: [5, 190, 0, 0], fontSize: 10.5
+          	        },
+          	        {
+          	           width: '50%',
+                       text: this.currency , margin: [90, 190, 10, 0]
+          	        }
+          	    ]
+          	  },
+          	  '\n',
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: this.holderAc, margin: [15, 0, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: this.amount, margin: [30, 0, 69, 0], alignment: 'right'
+          	        }
+          	    ]
+          	  },
+          	  '\n',
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: '', margin: [30, 20, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: this.amountWords, margin: [40, 0, 10, 0]
+          	        }
+          	    ]
+          	  },
+          	  
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: this.beneficiaryName + '\n\n' + this.beneficiaryAc, margin: [15, 8, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: '', margin: [30, 0, 10, 0]
+          	        }
+          	    ]
+          	  },
+          	  '\n',
+          	  {
+          	    columns: [
+          	        {
+          	           width: '50%',
+                       text: this.address, margin: [15, 35, 10, 0]
+          	        },
+          	        {
+          	           width: '50%',
+                       text: this.bankAddress, margin: [40, 17, 10, 0]
+          	        }
+          	    ]
+          	  }
+          	  
+
+          	  
+          	],
+          	styles: {
+          		leftMargin: {
+          			margin: [30, 30, 10, 0],
+          			fontSize: 10
+          		}
+          	}
+          }
+          
+          pdfMake.createPdf(dd).open();
+            
+      }
+      
+      
+      
+    }
+      })
+    </script>
+   
+
+  </body>
+
+</html>
