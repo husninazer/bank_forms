@@ -87,7 +87,7 @@
                   
                   <tr align="left">
                     <td>Amount:</td>
-                    <td><input class="my-style" v-model="amount"  />  </td>
+                    <td><input class="my-style" v-model="amount" v-on:keyup="getWords" />  </td>
                     <td>Amount in Words:</td>
                     <td><textarea class="my-style" v-model="amountWords"> </textarea>  </td>
                   </tr>
@@ -128,8 +128,8 @@
             beneficiaryName: 'ATTAR HOLDING CO',
             beneficiaryAc: 'SA28 1000 0010 1769 1100 0103',
             
-            amount: '14,000,000.00',
-            amountWords: 'THREE HUNDRED THOUSAND AND 00/100 ONLY',
+            amount: '',
+            amountWords: '',
             
             address: '\nSaudi Arabia\n\nJeddah \n\n6611222',
             bankAddress: 'NCB\nJEDDAH',
@@ -181,7 +181,7 @@
           	        },
           	        {
           	           width: '50%',
-                       text: this.amountWords, margin: [40, 0, 10, 0]
+                       text: this.toTitleCase(this.amountWords), margin: [40, 0, 10, 0]
           	        }
           	    ]
           	  },
@@ -225,7 +225,57 @@
           
           pdfMake.createPdf(dd).open();
             
-      }
+      },
+
+        getWords() {
+          var int = this.amount.replace(/,/g, '')
+          int = Math.trunc(int)
+          this.amountWords = this.toTitleCase(this.intToWords(int) + " AND 00/100 ONLY")
+        },
+
+        toTitleCase(str) {
+              return str.replace(
+                  /\w\S*/g,
+                  function(txt) {
+                      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                  }
+              );
+          },
+
+        intToWords(int) {
+            if (int === 0) return 'zero';
+
+            var ONES  = ['','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+            var TENS  = ['','','twenty','thirty','fourty','fifty','sixty','seventy','eighty','ninety'];
+            var SCALE = ['','thousand','million','billion','trillion','quadrillion','quintillion','sextillion','septillion','octillion','nonillion'];
+
+            // Return string of first three digits, padded with zeros if needed
+            function get_first(str) {
+              return ('000' + str).substr(-3);
+            }
+
+            // Return string of digits with first three digits chopped off
+            function get_rest(str) {
+              return str.substr(0, str.length - 3);
+            }
+
+            // Return string of triplet convereted to words
+            function triplet_to_words(_3rd, _2nd, _1st) {
+              return (_3rd == '0' ? '' : ONES[_3rd] + ' hundred ') + (_1st == '0' ? TENS[_2nd] : TENS[_2nd] && TENS[_2nd] + ' ' || '') + (ONES[_2nd + _1st] || ONES[_1st]);
+            }
+
+            // Add to words, triplet words with scale word
+            function add_to_words(words, triplet_words, scale_word) {
+              return triplet_words ? triplet_words + (scale_word && ' ' + scale_word || '') + ' ' + words : words;
+            }
+
+            function iter(words, i, first, rest) {
+              if (first == '000' && rest.length === 0) return words;
+              return iter(add_to_words(words, triplet_to_words(first[0], first[1], first[2]), SCALE[i]), ++i, get_first(rest), get_rest(rest));
+            }
+
+            return iter('', 0, get_first(String(int)), get_rest(String(int)));
+          } 
       
       
       

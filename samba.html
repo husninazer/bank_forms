@@ -240,7 +240,7 @@
       getWords() {
         var int = this.amount.replace(/,/g, '')
         int = Math.trunc(int)
-        this.amountWords = this.intToWords(int) + " AND 00/100 ONLY"
+        this.amountWords = this.toTitleCase(this.intToWords(int) + " AND 00/100 ONLY")
       },
 
       toTitleCase(str) {
