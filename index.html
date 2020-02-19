@@ -220,7 +220,16 @@
           			margin: [30, 30, 10, 0],
           			fontSize: 10
           		}
-          	}
+            },
+            defaultStyle: {
+              font: 'Mirza-Regular'
+            }
+          }
+
+          pdfMake.fonts = {
+            'Mirza-Regular': {
+              normal: 'Mirza-Regular.ttf'
+            }
           }
           
           pdfMake.createPdf(dd).open();
