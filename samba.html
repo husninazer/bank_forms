@@ -108,7 +108,7 @@
 
                 </table>
               </div>
-              <img width = "20%" style=" transform: rotate(-90deg);" src="img/samba.jpg">
+              <img width = "20%" style=" transform: rotate(0deg);" src="img/samba.jpg">
               <p>Page Size: B4(JIS) </p>
         </div>
       </div>
@@ -119,7 +119,7 @@
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
     <script src="vendor/husni/pdfmake.min.js"></script>
-    <script src="vendor/husni/vfs_fonts.js"></script>
+    <script src="vendor/husni/vfs_fonts_old.js"></script>
 
     <script>
       new Vue({
@@ -232,7 +232,8 @@
                 height: 842
             }
           }
-          
+
+   
           pdfMake.createPdf(dd).open();
             
       },
